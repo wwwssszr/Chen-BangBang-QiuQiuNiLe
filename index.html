@@ -1,0 +1,598 @@
+<!doctype html>
+<html class="no-js" lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#fafafa">
+  <title>程帮帮不理我的日子</title>
+
+  <style>
+    :root {
+      --nav-height: 68px;
+      --accent: #ff6b6b;
+      --accent-light: #ff9e9e;
+      --accent-dark: #ff4757;
+      --muted: #6b7280;
+      --muted-light: #9ca3af;
+      --muted-dark: #4b5563;
+      --bg: #f8fafc;
+      --bg-light: #ffffff;
+      --glass: rgba(255, 255, 255, 0.85);
+      --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.08);
+      --shadow-md: 0 6px 20px rgba(15, 23, 42, 0.1);
+      --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.12);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --transition: all 0.25s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(180deg, #f1f5f9 0%, #ffffff 100%);
+      color: #111827;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      line-height: 1.6;
+      padding-top: var(--nav-height);
+      background-attachment: fixed;
+    }
+
+    /* 导航栏 */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--nav-height);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 1000;
+      background: var(--glass);
+      backdrop-filter: blur(12px) saturate(180%);
+      -webkit-backdrop-filter: blur(12px) saturate(180%);
+      box-shadow: var(--shadow-sm);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+    }
+
+    .nav .brand {
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--accent-dark);
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand::before {
+      content: "💔";
+      font-size: 18px;
+    }
+
+    .nav .menu {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    .nav button {
+      background: transparent;
+      border: 1px solid rgba(255, 107, 107, 0.1);
+      padding: 8px 16px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 15px;
+      color: var(--muted-dark);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav button:hover {
+      background: rgba(255, 107, 107, 0.08);
+      color: var(--accent-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .nav button::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: var(--transition);
+      transform: translateX(-50%);
+    }
+
+    .nav button:hover::after {
+      width: 70%;
+    }
+
+    /* 头部大图 */
+    .header {
+      position: relative;
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 24px;
+      text-align: center;
+      background-image:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1)),
+        url("img/背景1.png");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, rgba(255, 107, 107, 0.1) 0%, rgba(0, 0, 0, 0.2) 100%);
+      pointer-events: none;
+    }
+
+    .header::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.25) 0%, rgba(255, 255, 255, 0) 40%);
+      pointer-events: none;
+    }
+
+    .header h1 {
+      position: relative;
+      margin: 0;
+      z-index: 2;
+      font-size: clamp(32px, 6.5vw, 64px);
+      line-height: 1.1;
+      font-weight: 700;
+      text-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+      margin-bottom: 12px;
+      max-width: 900px;
+    }
+
+    .header h1 .accent {
+      color: var(--accent-light);
+      position: relative;
+    }
+
+    #days {
+      display: inline-block;
+      min-width: 60px;
+      padding: 0 8px;
+      color: #fff;
+      background: rgba(255, 107, 107, 0.9);
+      border-radius: var(--radius-md);
+      box-shadow: 0 4px 20px rgba(255, 107, 107, 0.4);
+      animation: pulse 2s infinite alternate;
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 4px 20px rgba(255, 107, 107, 0.4);
+      }
+      100% {
+        box-shadow: 0 4px 30px rgba(255, 107, 107, 0.6);
+      }
+    }
+
+    .subtitle {
+      position: relative;
+      z-index: 2;
+      font-size: 18px;
+      font-weight: 400;
+      opacity: 0.9;
+      max-width: 600px;
+      margin-top: 16px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    /* 页面主体 */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    section {
+      margin-bottom: 64px;
+      scroll-margin-top: calc(var(--nav-height) + 20px);
+    }
+
+    h2 {
+      font-size: 32px;
+      margin: 0 0 24px;
+      color: #0f172a;
+      font-weight: 700;
+      position: relative;
+      padding-bottom: 12px;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    p {
+      color: var(--muted-dark);
+      background: var(--bg-light);
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      margin-bottom: 20px;
+      font-size: 17px;
+      line-height: 1.7;
+      border-left: 4px solid var(--accent);
+      transition: var(--transition);
+    }
+
+    p:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+
+    h3 {
+      font-size: 24px;
+      margin: 32px 0 16px;
+      color: #1e293b;
+      font-weight: 600;
+    }
+
+    h4 {
+      font-size: 20px;
+      margin: 24px 0 12px;
+      color: #334155;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h4::before {
+      content: "📸";
+      font-size: 18px;
+    }
+
+    h5 {
+      font-size: 16px;
+      margin: 16px 0 12px;
+      color: var(--muted);
+      font-weight: 500;
+      font-style: italic;
+      padding-left: 8px;
+      border-left: 2px solid var(--accent-light);
+    }
+
+    /* 图片和视频样式 */
+    .media-container {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      margin: 20px 0 32px;
+    }
+
+    .media-item {
+      width: 100%;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      transition: var(--transition);
+      background: var(--bg-light);
+    }
+
+    .media-item:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .media-item img,
+    .media-item video {
+      width: 100%;
+      display: block;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+
+    .media-caption {
+      padding: 16px;
+      font-size: 15px;
+      color: var(--muted-dark);
+      border-top: 1px solid #f1f5f9;
+    }
+
+    .memory-section {
+      position: relative;
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.7);
+      margin-top: 32px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+    }
+
+    .memory-section::before {
+      content: "💭";
+      position: absolute;
+      top: -16px;
+      left: 24px;
+      font-size: 24px;
+      background: white;
+      padding: 4px 12px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* 页脚 */
+    .footer {
+      text-align: center;
+      padding: 40px 24px;
+      margin-top: 40px;
+      color: var(--muted);
+      font-size: 15px;
+      border-top: 1px solid #f1f5f9;
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    .heart {
+      color: var(--accent);
+      display: inline-block;
+      animation: heartbeat 1.5s infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    /* 响应式调整 */
+    @media (max-width: 768px) {
+      .nav {
+        padding: 0 16px;
+      }
+
+      .nav .brand {
+        font-size: 18px;
+      }
+
+      .nav button {
+        padding: 6px 12px;
+        font-size: 14px;
+      }
+
+      .header {
+        padding: 48px 16px;
+        min-height: 55vh;
+      }
+
+      h2 {
+        font-size: 28px;
+      }
+
+      .container {
+        padding: 40px 16px 60px;
+      }
+
+      section {
+        margin-bottom: 48px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .nav .menu {
+        gap: 2px;
+      }
+
+      .nav button {
+        padding: 6px 10px;
+        font-size: 13px;
+      }
+
+      .header h1 {
+        font-size: clamp(28px, 8vw, 40px);
+      }
+
+      .subtitle {
+        font-size: 16px;
+      }
+
+      p {
+        padding: 20px 16px;
+        font-size: 16px;
+      }
+    }
+</style>
+</head>
+
+<body>
+<header class="header" role="banner">
+  <div class="nav" role="navigation" aria-label="主导航">
+    <div class="brand">程帮帮求你啦</div>
+    <div class="menu" role="menu">
+      <button role="menuitem" onclick="document.querySelector('main').scrollIntoView({behavior: 'smooth'})">发生了什么</button>
+      <button role="menuitem" onclick="document.querySelector('section:nth-child(2)').scrollIntoView({behavior: 'smooth'})">回忆</button>
+      <button role="menuitem" onclick="document.querySelector('.footer').scrollIntoView({behavior: 'smooth'})">关于</button>
+    </div>
+  </div>
+
+  <h1 id="main-title">程帮帮不理我的<br>第 <span id="days">0</span> 天</h1>
+  <p class="subtitle">这些日子，每一天都记录着想念与困惑</p>
+</header>
+
+<main class="container" role="main">
+  <section>
+    <h2>发生了什么？</h2>
+    <p>绝望起于2026年1月6日的晚上，我发现自从上周起，帮帮很少找我，我就以为是帮帮不开心了，所有我就委托陈馨淼去问一下帮帮（可是花了我5元），星期一早上升国旗的时候，陈馨淼跟我说："我问帮帮了，我说：'最近怎么都不和宁振誉玩了？'，她说：'我已经不和他玩了'，我问她：'为什么啊？','你去问他'"，就这样，好莫名奇妙啊T_T，我也没说我不和她玩了啊，可是我看她现在理都不理我，我也不敢问她，帮帮每天和她朋友玩的特别好，可是我下课总是不知道干啥，虽然张浩任和梁为阳换了位置，总算有了个玩伴，可是我每天都在想着你，希望你能回来。</p>
+  </section>
+
+  <section>
+    <h2>回忆</h2>
+    <p>这些都是我记录下为数不多的照片跟视频了</p>
+
+    <div class="memory-section">
+      <h3>研学回忆</h3>
+      <h4>好玩吗</h4>
+
+      <div class="media-container">
+        <div class="media-item">
+          <img src="img/IMG_20251126_130332.jpg" alt="回忆图片1：吃水果捞时拍的">
+          <div class="media-caption">
+            <h5>没想到吧，吃水果捞时拍的</h5>
+          </div>
+        </div>
+
+        <div class="media-item">
+          <img src="img/IMG_20251126_105437.jpg" alt="回忆图片2：跑这么远，还能走回来">
+          <div class="media-caption">
+            <h5>跑这么远，还能走回来</h5>
+          </div>
+        </div>
+
+        <div class="media-item">
+          <img src="img/Image_1764089981690.jpg" alt="回忆图片3：原本是想拍要气雨的，没想到拍到了你">
+          <div class="media-caption">
+            <h5>原本是想拍要气雨的，没想到拍到了你，不会懵逼了吧</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="memory-section">
+      <h3>校运会</h3>
+
+      <div class="media-container">
+        <div class="media-item">
+          <video controls>
+            <source src="img/V00001.mp4" type="video/mp4">
+            您的浏览器不支持视频播放。
+          </video>
+          <div class="media-caption">
+            <h5>校运会回忆视频 1</h5>
+          </div>
+        </div>
+
+        <div class="media-item">
+          <video controls>
+            <source src="img/V00002.mp4" type="video/mp4">
+            您的浏览器不支持视频播放。
+          </video>
+          <div class="media-caption">
+            <h5>校运会回忆视频 2</h5>
+          </div>
+        </div>
+
+        <div class="media-item">
+          <video controls>
+            <source src="img/V00003.mp4" type="video/mp4">
+            您的浏览器不支持视频播放。
+          </video>
+          <div class="media-caption">
+            <h5>校运会回忆视频 3</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="memory-section">
+      <h4>我只是随便说说的而已，你怎么还当真了？但最后还是我拉你进的吧</h4>
+
+      <div class="media-container">
+        <div class="media-item">
+          <img src="img/IMG_20251115_130957.jpg" alt="回忆图片4">
+          <div class="media-caption">
+            <h5>珍贵的瞬间</h5>
+          </div>
+        </div>
+
+        <div class="media-item">
+          <img src="img/IMG_20251115_130957.jpg" alt="回忆图片5">
+          <div class="media-caption">
+            <h5>同样的时刻，不同的心情</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer" role="contentinfo">
+  <p>这个网站记录了程帮帮不理我的每一天</p>
+  <p>希望有一天，我们可以重新成为朋友 <span class="heart">❤️</span></p>
+  <p style="margin-top: 16px; font-size: 14px; opacity: 0.7;">© 2026</p>
+</footer>
+
+<script>
+  // 计算天数并插入页面
+  (function() {
+    const start = new Date("2026-01-06T00:00:00");
+    const now = new Date();
+    const msPerDay = 1000 * 60 * 60 * 24;
+
+    // 取整日期差（以当地时间为准）
+    const days = Math.floor((Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) -
+      Date.UTC(start.getFullYear(), start.getMonth(), start.getDate())) / msPerDay);
+
+    document.getElementById("days").textContent = days;
+
+    // 更新页面标题
+    document.title = `程帮帮不理我的第 ${days} 天`;
+
+    // 为导航按钮添加交互效果
+    document.querySelectorAll('.nav button').forEach(button => {
+      button.addEventListener('click', function() {
+        // 移除所有按钮的active状态
+        document.querySelectorAll('.nav button').forEach(btn => {
+          btn.style.backgroundColor = 'transparent';
+          btn.style.color = 'var(--muted-dark)';
+        });
+
+        // 为当前按钮添加active状态
+        this.style.backgroundColor = 'rgba(255, 107, 107, 0.1)';
+        this.style.color = 'var(--accent-dark)';
+      });
+    });
+
+    // 设置第一个按钮为默认active
+    if (document.querySelector('.nav button')) {
+      document.querySelector('.nav button').style.backgroundColor = 'rgba(255, 107, 107, 0.1)';
+      document.querySelector('.nav button').style.color = 'var(--accent-dark)';
+    }
+  })();
+</script>
+</body>
+
+</html>
